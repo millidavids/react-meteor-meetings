@@ -1,0 +1,34 @@
+html, body {
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-size: 120%;
+}
+
+.like-list, .change-list {
+  text-align: center;
+
+  ul {
+    text-align: left;
+    line-height: 300%;
+  }
+}
+
+.btn-like.btn {
+  background-color: darken(green, 5);
+}
+
+.btn-change.btn {
+  background-color: lighten(red, 20);
+}
+
+button.delete {
+  height: 3em;
+  float: right;
+  font-weight: bold;
+  background: none;
+  font-size: 1em;
+  border: none;
+  position: relative;
+  padding: none;
+}

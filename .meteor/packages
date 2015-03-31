@@ -5,7 +5,9 @@
 # but you can also edit it by hand.
 
 meteor-platform
-autopublish
 insecure
 reactjs:react
 fourseven:scss
+markdown
+materialize:materialize
+fortawesome:fontawesome
