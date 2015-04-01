@@ -16,16 +16,25 @@ var LikesAndChanges = ReactMeteor.createClass({
     };
   },
 
+  handleLikeOrChangeClick: function(l_or_c) {
+    if (l_or_c.type === 'Like') {
+      Meteor.call('addLike', l_or_c.text);
+    }
+    if (l_or_c.type === 'Change') {
+      Meteor.call('addChange', l_or_c.text);
+    }
+  },
+
   render: function() {
     return (
       <div className='likes-and-changes'>
-        <AddLikeOrChange />
+        <AddLikeOrChange onAddLikeOrChangeSubmit={this.handleLikeOrChangeClick}/>
         <div className='row'>
           <div className='col s6'>
-            <Likes data={this.state.likes} onLikesSubmit={this.handleLikeSubmitClick}/>
+            <Likes data={this.state.likes} />
           </div>
           <div className='col s6'>
-            <Changes data={this.state.changes} onChangeSubmit={this.handleChangeSubmitClick} />
+            <Changes data={this.state.changes} />
           </div>
         </div>
       </div>
@@ -34,13 +43,33 @@ var LikesAndChanges = ReactMeteor.createClass({
 });
 
 var AddLikeOrChange = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault(e);
+    var type = $(document.activeElement)[0].value;
+    var text = this.refs.text.getDOMNode().value.trim();
+    if (!text) {
+      return;
+    }
+    this.props.onAddLikeOrChangeSubmit({type: type, text: text});
+    this.refs.text.getDOMNode().value = '';
+    return;
+  },
+
   render: function() {
     return (
-      <form className="add-like-or-change">
+      <form className="add-like-or-change" onSubmit={this.handleSubmit}>
         <div className="row">
           <div className="input-field col s12">
-            <textarea id="textarea1" className="materialize-textarea"></textarea>
+            <textarea id="textarea1" className="materialize-textarea" ref='text'></textarea>
             <label htmlFor="textarea1">Like or Change?</label>
+            <div className="row">
+              <div className="col s6 center-align">
+                <input className="btn-like btn waves-effect waves-light" type="submit" value="Like"></input>
+              </div>
+              <div className="col s6 center-align">
+                <input className="btn-change btn waves-effect waves-light" type="submit" value="Change"></input>
+              </div>
+            </div>
           </div>
         </div>
       </form>
@@ -49,11 +78,6 @@ var AddLikeOrChange = React.createClass({
 });
 
 var Likes = React.createClass({
-  handleSubmit: function() {
-    e.preventDefault(e);
-    Meteor.call('addLike');
-  },
-
   render: function() {
     var likeNodes = this.props.data.map(function(like, index) {
       return (
@@ -66,10 +90,6 @@ var Likes = React.createClass({
     });
     return (
       <div className='like-list'>
-        <button className="btn-like btn waves-effect waves-light" type="submit" name="action" onSubmit={this.handleSubmit}>
-          <i className="fa fa-arrow-left"></i>
-          Like
-        </button>
         <ul className='fa-ul'>
           {likeNodes}
         </ul>
@@ -79,11 +99,6 @@ var Likes = React.createClass({
 });
 
 var Changes = React.createClass({
-  handleSubmit: function() {
-    e.preventDefault(e);
-    Meteor.call('addChange');
-  },
-
   render: function() {
     var changeNodes = this.props.data.map(function(change, index) {
       return (
@@ -96,10 +111,6 @@ var Changes = React.createClass({
     });
     return (
       <div className='change-list'>
-        <button className="btn-change btn waves-effect waves-light" type="submit" name="action" onSubmit={this.handleSubmit}>
-          Change
-          <i className="fa fa-arrow-right"></i>
-        </button>
         <ul className='change-list fa-ul'>
           {changeNodes}
         </ul>
@@ -109,16 +120,17 @@ var Changes = React.createClass({
 });
 
 Meteor.methods({
-  addLike: function() {
-    var like = getElementById('textarea1');
+  addLike: function(text) {
     LikesCollection.insert({
-      text: like.text
+      text: text,
+      createdAt: new Date()
     });
   },
 
-  addChange: function() {
+  addChange: function(text) {
     ChangesCollection.insert({
-      text: change.text
+      text: text,
+      createdAt: new Date()
     });
   }
 });
