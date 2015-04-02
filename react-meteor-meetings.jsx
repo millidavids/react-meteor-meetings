@@ -11,8 +11,9 @@ var LikesAndChanges = ReactMeteor.createClass({
 
   getMeteorState: function() {
     return {
-      likes: LikesCollection.find().fetch(),
-      changes: ChangesCollection.find().fetch()
+      date: new Date(),
+      likes: LikesCollection.find().fetch().reverse(),
+      changes: ChangesCollection.find().fetch().reverse()
     };
   },
 
@@ -31,10 +32,10 @@ var LikesAndChanges = ReactMeteor.createClass({
         <AddLikeOrChange onAddLikeOrChangeSubmit={this.handleLikeOrChangeClick}/>
         <div className='row'>
           <div className='col s6'>
-            <Likes data={this.state.likes} />
+            <Likes date={this.state.date} data={this.state.likes} />
           </div>
           <div className='col s6'>
-            <Changes data={this.state.changes} />
+            <Changes date={this.state.date} data={this.state.changes} />
           </div>
         </div>
       </div>
@@ -79,14 +80,17 @@ var AddLikeOrChange = React.createClass({
 
 var Likes = React.createClass({
   render: function() {
+    var today = this.props.date;
     var likeNodes = this.props.data.map(function(like, index) {
-      return (
-        <li key={index}>
-          <button className="delete">&times;</button>
-          <i className=" fa-li fa"></i>
-          <span>{like.text}</span>
-        </li>
-      );
+      if (like.createdAt.getFullYear() === today.getFullYear() &&
+          like.createdAt.getMonth() === today.getMonth() &&
+          like.createdAt.getDay() === today.getDay()) {
+        return (
+          <li key={index}>
+            <Like likeObject={like} />
+          </li>
+        );
+      }
     });
     return (
       <div className='like-list'>
@@ -100,14 +104,17 @@ var Likes = React.createClass({
 
 var Changes = React.createClass({
   render: function() {
+    var today = this.props.date;
     var changeNodes = this.props.data.map(function(change, index) {
-      return (
-        <li key={index}>
-          <button className="delete">&times;</button>
-          <i className=" fa-li fa"></i>
-          <span>{change.text}</span>
-        </li>
-      );
+      if (change.createdAt.getFullYear() === today.getFullYear() &&
+          change.createdAt.getMonth() === today.getMonth() &&
+          change.createdAt.getDay() === today.getDay()) {
+        return (
+          <li key={index}>
+            <Change changeObject={change} />
+          </li>
+        );
+      }
     });
     return (
       <div className='change-list'>
@@ -118,6 +125,40 @@ var Changes = React.createClass({
     );
   }
 });
+
+var Like = React.createClass({
+  handleDelete: function(e) {
+    e.preventDefault(e);
+    Meteor.call('deleteLike', this.props.likeObject._id);
+  },
+
+  render: function() {
+    return (
+      <div className='like'>
+        <button className="delete" onClick={this.handleDelete}>&times;</button>
+        <span>{this.props.likeObject.text}</span>
+      </div>
+    );
+  }
+});
+
+var Change = React.createClass({
+  handleDelete: function(e) {
+    e.preventDefault(e);
+    console.log('test');
+    Meteor.call('deleteChange', this.props.changeObject._id);
+  },
+
+  render: function() {
+    return (
+      <div className='change'>
+        <button className="delete" onClick={this.handleDelete}>&times;</button>
+        <span>{this.props.changeObject.text}</span>
+      </div>
+    );
+  }
+});
+
 
 Meteor.methods({
   addLike: function(text) {
@@ -132,6 +173,14 @@ Meteor.methods({
       text: text,
       createdAt: new Date()
     });
+  },
+
+  deleteLike: function(id) {
+    LikesCollection.remove(id);
+  },
+
+  deleteChange: function(id) {
+    ChangesCollection.remove(id);
   }
 });
 
