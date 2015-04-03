@@ -9,9 +9,14 @@ var LikesAndChanges = ReactMeteor.createClass({
     Meteor.subscribe('changes');
   },
 
+  getInitialState: function() {
+    return {
+      date: new Date()
+    };
+  },
+
   getMeteorState: function() {
     return {
-      date: new Date(),
       likes: LikesCollection.find().fetch().reverse(),
       changes: ChangesCollection.find().fetch().reverse()
     };
@@ -19,16 +24,30 @@ var LikesAndChanges = ReactMeteor.createClass({
 
   handleLikeOrChangeClick: function(l_or_c) {
     if (l_or_c.type === 'Like') {
-      Meteor.call('addLike', l_or_c.text);
+      Meteor.call('addLike', l_or_c.text, this.state.date);
     }
     if (l_or_c.type === 'Change') {
-      Meteor.call('addChange', l_or_c.text);
+      Meteor.call('addChange', l_or_c.text, this.state.date);
     }
   },
 
+  setDate: function(e) {
+    var newDate = new Date(e.target.value);
+    newDate.setDate(newDate.getDate() + 1);
+    this.setState({date: new Date(newDate)});
+  },
+
   render: function() {
+    var formatedDate = this.state.date.getFullYear() + '-' +
+        ('0' + (this.state.date.getMonth() + 1)).slice(-2) + '-' +
+        ('0' + this.state.date.getDate()).slice(-2);
     return (
       <div className='likes-and-changes'>
+        <div className='row date-row'>
+          <form className='col date-form right'>
+            <input type='date' value={formatedDate} className='datepicker' onChange={this.setDate}></input>
+          </form>
+        </div>
         <AddLikeOrChange onAddLikeOrChangeSubmit={this.handleLikeOrChangeClick}/>
         <div className='row'>
           <div className='col s6'>
@@ -161,17 +180,17 @@ var Change = React.createClass({
 
 
 Meteor.methods({
-  addLike: function(text) {
+  addLike: function(text, date) {
     LikesCollection.insert({
       text: text,
-      createdAt: new Date()
+      createdAt: date
     });
   },
 
-  addChange: function(text) {
+  addChange: function(text, date) {
     ChangesCollection.insert({
       text: text,
-      createdAt: new Date()
+      createdAt: date
     });
   },
 

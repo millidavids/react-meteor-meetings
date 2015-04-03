@@ -32,3 +32,18 @@ button.delete {
   position: relative;
   padding: none;
 }
+
+form.date-form {
+  height: 2rem;
+}
+
+input.datepicker {
+  border: none;
+  font-size: .7em;
+}
+
+.date-row {
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+}
