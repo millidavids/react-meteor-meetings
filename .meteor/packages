@@ -11,3 +11,5 @@ fourseven:scss
 markdown
 materialize:materialize
 fortawesome:fontawesome
+accounts-ui
+accounts-password
