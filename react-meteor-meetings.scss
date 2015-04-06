@@ -5,6 +5,10 @@ html, body {
   font-size: 120%;
 }
 
+body {
+  padding: 5px 10px;
+}
+
 .like-list, .change-list {
   text-align: center;
 
@@ -46,4 +50,9 @@ input.datepicker {
   position: absolute;
   width: 100%;
   z-index: 1000;
+}
+
+#login-buttons a {
+  text-decoration: none;
+  color: #26A69A;
 }
