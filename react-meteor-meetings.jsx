@@ -38,27 +38,31 @@ var LikesAndChanges = ReactMeteor.createClass({
   },
 
   render: function() {
-    var formatedDate = this.state.date.getFullYear() + '-' +
-        ('0' + (this.state.date.getMonth() + 1)).slice(-2) + '-' +
-        ('0' + this.state.date.getDate()).slice(-2);
-    return (
-      <div className='likes-and-changes'>
-        <div className='row date-row'>
-          <form className='col date-form right'>
-            <input type='date' value={formatedDate} className='datepicker' onChange={this.setDate}></input>
-          </form>
-        </div>
-        <AddLikeOrChange onAddLikeOrChangeSubmit={this.handleLikeOrChangeClick}/>
-        <div className='row'>
-          <div className='col s6'>
-            <Likes date={this.state.date} data={this.state.likes} />
+    if (Meteor.userId() === null) {
+      return (<div className='LOL-PLZ-SIGN-IN'></div>);
+    } else {
+      var formatedDate = this.state.date.getFullYear() + '-' +
+          ('0' + (this.state.date.getMonth() + 1)).slice(-2) + '-' +
+          ('0' + this.state.date.getDate()).slice(-2);
+      return (
+        <div className='likes-and-changes'>
+          <div className='row date-row'>
+            <form className='col date-form right'>
+              <input type='date' value={formatedDate} className='datepicker' onChange={this.setDate}></input>
+            </form>
           </div>
-          <div className='col s6'>
-            <Changes date={this.state.date} data={this.state.changes} />
+          <AddLikeOrChange onAddLikeOrChangeSubmit={this.handleLikeOrChangeClick}/>
+          <div className='row'>
+            <div className='col s6'>
+              <Likes date={this.state.date} data={this.state.likes} />
+            </div>
+            <div className='col s6'>
+              <Changes date={this.state.date} data={this.state.changes} />
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 });
 
@@ -178,20 +182,37 @@ var Change = React.createClass({
   }
 });
 
+if(Meteor.isClient) {
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+  });
+}
 
 Meteor.methods({
   addLike: function(text, date) {
-    LikesCollection.insert({
-      text: text,
-      createdAt: date
-    });
+    if (Meteor.userId() === null) {
+      console.log('Please sign in first, how did you click this?');
+    } else {
+      LikesCollection.insert({
+        text: text,
+        createdAt: date,
+        owner: Meteor.userId(),
+        username: Meteor.userId().username
+      });
+    }
   },
 
   addChange: function(text, date) {
-    ChangesCollection.insert({
-      text: text,
-      createdAt: date
-    });
+    if (Meteor.userId() === null) {
+      console.log('Please sign in first, how did you click this?');
+    } else {
+      ChangesCollection.insert({
+        text: text,
+        createdAt: date,
+        owner: Meteor.userId(),
+        username: Meteor.userId().username
+      });
+    }
   },
 
   deleteLike: function(id) {
@@ -205,9 +226,9 @@ Meteor.methods({
 
 if (Meteor.isServer) {
   Meteor.publish('likes', function(){
-    return LikesCollection.find();
+    return LikesCollection.find({owner: this.userId});
   });
   Meteor.publish('changes', function(){
-    return ChangesCollection.find();
+    return ChangesCollection.find({owner: this.userId});
   });
 }
