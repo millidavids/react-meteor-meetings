@@ -158,8 +158,15 @@ var Like = React.createClass({
   render: function() {
     return (
       <div className='like'>
-        <button className="delete" onClick={this.handleDelete}>&times;</button>
-        <span>{this.props.likeObject.text}</span>
+        <div className='row'>
+          <div className='col s1'>
+            <i className='fa fa-thumbs-up'></i>
+          </div>
+          <div className='col s9'>
+            {this.props.likeObject.text}
+            <button className="delete right" onClick={this.handleDelete}>&times;</button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -168,15 +175,21 @@ var Like = React.createClass({
 var Change = React.createClass({
   handleDelete: function(e) {
     e.preventDefault(e);
-    console.log('test');
     Meteor.call('deleteChange', this.props.changeObject._id);
   },
 
   render: function() {
     return (
       <div className='change'>
-        <button className="delete" onClick={this.handleDelete}>&times;</button>
-        <span>{this.props.changeObject.text}</span>
+        <div className='row'>
+          <div className='col s1'>
+            &Delta;
+          </div>
+          <div className='col s9'>
+            {this.props.changeObject.text}
+            <button className="delete right" onClick={this.handleDelete}>&times;</button>
+          </div>
+        </div>
       </div>
     );
   }
