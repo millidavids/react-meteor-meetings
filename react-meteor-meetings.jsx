@@ -23,7 +23,6 @@ var LikesAndChanges = ReactMeteor.createClass({
   },
 
   handleLikeOrChangeClick: function(l_or_c) {
-    console.log()
     if (l_or_c.type === 'Like') {
       Meteor.call('addLike', l_or_c.text, this.state.date);
     }
