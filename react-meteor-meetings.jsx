@@ -23,6 +23,7 @@ var LikesAndChanges = ReactMeteor.createClass({
   },
 
   handleLikeOrChangeClick: function(l_or_c) {
+    console.log()
     if (l_or_c.type === 'Like') {
       Meteor.call('addLike', l_or_c.text, this.state.date);
     }
@@ -53,10 +54,10 @@ var LikesAndChanges = ReactMeteor.createClass({
           </div>
           <AddLikeOrChange onAddLikeOrChangeSubmit={this.handleLikeOrChangeClick}/>
           <div className='row'>
-            <div className='col s6'>
+            <div className='col s6 left'>
               <Likes date={this.state.date} data={this.state.likes} />
             </div>
-            <div className='col s6'>
+            <div className='col s6 right'>
               <Changes date={this.state.date} data={this.state.changes} />
             </div>
           </div>
@@ -107,7 +108,7 @@ var Likes = React.createClass({
     var likeNodes = this.props.data.map(function(like, index) {
       if (like.createdAt.getFullYear() === today.getFullYear() &&
           like.createdAt.getMonth() === today.getMonth() &&
-          like.createdAt.getDay() === today.getDay()) {
+          like.createdAt.getDate() === today.getDate()) {
         return (
           <li key={index}>
             <Like likeObject={like} />
@@ -131,7 +132,7 @@ var Changes = React.createClass({
     var changeNodes = this.props.data.map(function(change, index) {
       if (change.createdAt.getFullYear() === today.getFullYear() &&
           change.createdAt.getMonth() === today.getMonth() &&
-          change.createdAt.getDay() === today.getDay()) {
+          change.createdAt.getDate() === today.getDate()) {
         return (
           <li key={index}>
             <Change changeObject={change} />
