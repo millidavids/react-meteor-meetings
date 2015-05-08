@@ -109,7 +109,7 @@ var Likes = React.createClass({
           like.createdAt.getMonth() === today.getMonth() &&
           like.createdAt.getDate() === today.getDate()) {
         return (
-          <li key={index}>
+          <li className='clearfix' key={index}>
             <Like likeObject={like} />
           </li>
         );
@@ -133,7 +133,7 @@ var Changes = React.createClass({
           change.createdAt.getMonth() === today.getMonth() &&
           change.createdAt.getDate() === today.getDate()) {
         return (
-          <li key={index}>
+          <li className='clearfix' key={index}>
             <Change changeObject={change} />
           </li>
         );
@@ -162,9 +162,9 @@ var Like = React.createClass({
           <div className='col s1'>
             <i className='fa fa-thumbs-up'></i>
           </div>
-          <div className='col s9'>
-            {this.props.likeObject.text}
+          <div className='col s9 like-column'>
             <button className="delete right" onClick={this.handleDelete}>&times;</button>
+            <span className='like-text'>{this.props.likeObject.text}</span>
           </div>
         </div>
       </div>
@@ -185,9 +185,9 @@ var Change = React.createClass({
           <div className='col s1'>
             &Delta;
           </div>
-          <div className='col s9'>
-            {this.props.changeObject.text}
+          <div className='col s9 change-column'>
             <button className="delete right" onClick={this.handleDelete}>&times;</button>
+            <span className='change-text'>{this.props.changeObject.text}</span>
           </div>
         </div>
       </div>
