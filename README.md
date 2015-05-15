@@ -6,3 +6,10 @@ I have deployed the meteor app [HERE][meteor-likes-and-changes]. Just create and
 
 [meteor-likes-and-changes]: http://likes-and-changes.meteor.com/
 [react-meteor]: https://github.com/reactjs/react-meteor
+
+## How to Run
+
+    curl https://install.meteor.com/ | sh
+    meteor
+
+Visit [localhost:3000](http://localhost:3000/) in your browser.

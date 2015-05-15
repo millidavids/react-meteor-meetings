@@ -14,7 +14,19 @@ body {
 
   ul {
     text-align: left;
-    line-height: 300%;
+
+    li {
+      .like-column, .change-column {
+        .like-text, .change-text {
+          display: table-cell;
+          padding-right: 15px;
+        }
+      }
+
+      & + li {
+        margin-top: 1.5em;
+      }
+    }
   }
 }
 
@@ -27,14 +39,12 @@ body {
 }
 
 button.delete {
-  height: 3em;
-  float: right;
   font-weight: bold;
   background: none;
   font-size: 1em;
   border: none;
   position: relative;
-  padding: none;
+  padding: 0;
 }
 
 form.date-form {
