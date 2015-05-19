@@ -31,6 +31,20 @@ var LikesAndChanges = ReactMeteor.createClass({
     }
   },
 
+  handleLastWeek: function() {
+    var today = new Date(this.state.date);
+    var last_week = new Date(this.state.date);
+    last_week.setDate(today.getDate()-7);
+    this.setState({date: last_week});
+  },
+
+  handleNextWeek: function() {
+    var today = new Date(this.state.date);
+    var next_week = new Date(this.state.date);
+    next_week.setDate(today.getDate()+7);
+    this.setState({date: next_week});
+  },
+
   setDate: function(e) {
     var newDate = new Date(e.target.value);
     newDate.setDate(newDate.getDate() + 1);
@@ -47,9 +61,11 @@ var LikesAndChanges = ReactMeteor.createClass({
       return (
         <div className='likes-and-changes'>
           <div className='row date-row'>
-            <form className='col date-form right'>
+            <button className='col s2 right waves-effect' onClick={this.handleNextWeek}>Next Week</button>
+            <form className='col s3 date-form right right-align'>
               <input type='date' value={formatedDate} className='datepicker' onChange={this.setDate}></input>
             </form>
+            <button className='col s2 right waves-effect' onClick={this.handleLastWeek}>Last Week</button>
           </div>
           <AddLikeOrChange onAddLikeOrChangeSubmit={this.handleLikeOrChangeClick}/>
           <div className='row'>
@@ -256,7 +272,7 @@ Meteor.methods({
   moveChangeForward: function(changeID) {
     var change = ChangesCollection.findOne({_id: changeID});
     var current_day = new Date(change.createdAt);
-    var next_week = new Date();
+    var next_week = new Date(change.createdAt);
     next_week.setDate(current_day.getDate()+7);
     ChangesCollection.update({_id: changeID}, {$set: {moved: true}});
     Meteor.call('addChange', change.text, next_week);

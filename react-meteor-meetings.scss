@@ -63,12 +63,22 @@ form.date-form {
 input.datepicker {
   border: none;
   font-size: .7em;
+  height: auto;
+  width: auto;
 }
 
 .date-row {
   position: absolute;
+  top: 0px;
   width: 100%;
   z-index: 1000;
+
+  button {
+    font-size: .8rem;
+    line-height: 250%;
+    background: none;
+    border: none;
+  }
 }
 
 #login-buttons a {
