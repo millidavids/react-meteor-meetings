@@ -159,12 +159,13 @@ var Like = React.createClass({
     return (
       <div className='like'>
         <div className='row'>
-          <div className='col s1'>
-            <i className='fa fa-thumbs-up'></i>
-          </div>
-          <div className='col s9 like-column'>
-            <button className="delete right" onClick={this.handleDelete}>&times;</button>
+          <div className='col s10 like-column'>
             <span className='like-text'>{this.props.likeObject.text}</span>
+          </div>
+          <div className='col s1'>
+            <button className="delete right" onClick={this.handleDelete}>
+              <div className='mdi-navigation-close'></div>
+            </button>
           </div>
         </div>
       </div>
@@ -178,16 +179,39 @@ var Change = React.createClass({
     Meteor.call('deleteChange', this.props.changeObject._id);
   },
 
+  handleMoveForward: function(e) {
+    e.preventDefault(e);
+    var reactID = e.dispatchMarker;
+    var dataAttribute = '[data-reactid="'.concat(reactID).concat('"]');
+    var arrowNode = $(dataAttribute);
+    var changeID = this.props.changeObject._id;
+    arrowNode.fadeOut(500, function() {
+      Meteor.call('moveChangeForward', changeID);
+    });
+  },
+
   render: function() {
+    var movedArrow;
+    if (this.props.changeObject.moved) {
+      movedArrow = 'hidden';
+    } else {
+      movedArrow = 'move-forward right';
+    }
     return (
       <div className='change'>
         <div className='row'>
-          <div className='col s1'>
-            &Delta;
-          </div>
-          <div className='col s9 change-column'>
-            <button className="delete right" onClick={this.handleDelete}>&times;</button>
+          <div className='col s10 change-column'>
             <span className='change-text'>{this.props.changeObject.text}</span>
+          </div>
+          <div className='col s1'>
+            <button className="delete right" onClick={this.handleDelete}>
+              <div className='mdi-navigation-close'></div>
+            </button>
+          </div>
+          <div className='col s1'>
+            <button className={movedArrow} onClick={this.handleMoveForward}>
+              <div className='mdi-navigation-arrow-forward'></div>
+            </button>
           </div>
         </div>
       </div>
@@ -223,9 +247,19 @@ Meteor.methods({
         text: text,
         createdAt: date,
         owner: Meteor.userId(),
-        username: Meteor.userId().username
+        username: Meteor.userId().username,
+        moved: false
       });
     }
+  },
+
+  moveChangeForward: function(changeID) {
+    var change = ChangesCollection.findOne({_id: changeID});
+    var current_day = new Date(change.createdAt);
+    var next_week = new Date();
+    next_week.setDate(current_day.getDate()+7);
+    ChangesCollection.update({_id: changeID}, {$set: {moved: true}});
+    Meteor.call('addChange', change.text, next_week);
   },
 
   deleteLike: function(id) {

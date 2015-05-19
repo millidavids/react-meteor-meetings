@@ -44,7 +44,16 @@ button.delete {
   font-size: 1em;
   border: none;
   position: relative;
-  padding: 0;
+  padding: 3px;
+}
+
+button.move-forward {
+  font-weight: bold;
+  background: none;
+  font-size: 1em;
+  border: none;
+  position: relative;
+  padding: 3px;
 }
 
 form.date-form {
@@ -69,4 +78,8 @@ input.datepicker {
 
 .fa-ul {
   margin: 0px;
+}
+
+.hidden {
+  display: none;
 }
