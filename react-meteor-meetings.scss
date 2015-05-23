@@ -1,3 +1,7 @@
+$like: #379F7A;
+$change: #CF4647;
+$skyblue: #E0EFF1;
+
 html, body {
   width: 100vw;
   min-height: 100vh;
@@ -6,36 +10,72 @@ html, body {
 }
 
 body {
+  background: -webkit-linear-gradient($skyblue, white); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient($skyblue, white); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient($skyblue, white); /* For Firefox 3.6 to 15 */
+  background: linear-gradient($skyblue, white); /* Standard syntax */
   padding: 5px 10px;
 }
 
 .like-list, .change-list {
   text-align: center;
-
   ul {
     text-align: left;
-
     li {
       .like-column, .change-column {
-        .like-text, .change-text {
+        .like-text {
+          color: darken($like, 10);
           display: table-cell;
+          line-height: 1.15em;
+          padding-right: 15px;
+        }
+        .change-text {
+          color: darken($change, 10);
+          display: table-cell;
+          line-height: 1.15em;
           padding-right: 15px;
         }
       }
 
       & + li {
-        margin-top: 1.5em;
+        margin-top: 20px;
       }
     }
   }
 }
 
 .btn-like.btn {
-  background-color: darken(green, 5);
+  background-color: $like;
+  box-shadow: 0 5px darken($like, 10);
+  -webkit-transition: none;
+  -moz-transition: none;
+}
+
+.btn-like:hover {
+  box-shadow: 0 2px darken($like, 10);
+  top: 2px;
+}
+
+.btn-like:active {
+  box-shadow: 0 0 darken($like, 10);
+  top: 6px;
 }
 
 .btn-change.btn {
-  background-color: lighten(red, 20);
+  background-color: $change;
+  box-shadow: 0 5px darken($change, 10);
+  -webkit-transition: none;
+  -moz-transition: none;
+}
+
+.btn-change:hover {
+  box-shadow: 0 2px darken($change, 10);
+  top: 2px;
+}
+
+.btn-change:active {
+  box-shadow: 0 0 darken($change, 10);
+  top: 6px;
 }
 
 button.delete {
