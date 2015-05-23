@@ -1,3 +1,8 @@
+$like: #379F7A;
+$change: #CF4647;
+$blue: #008C9E;
+$skyblue: #E0EFF1;
+
 html, body {
   width: 100vw;
   min-height: 100vh;
@@ -6,48 +11,109 @@ html, body {
 }
 
 body {
+  background: -webkit-linear-gradient($skyblue, white); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient($skyblue, white); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient($skyblue, white); /* For Firefox 3.6 to 15 */
+  background: linear-gradient($skyblue, white); /* Standard syntax */
   padding: 5px 10px;
 }
 
 .like-list, .change-list {
   text-align: center;
-
   ul {
     text-align: left;
-
     li {
       .like-column, .change-column {
-        .like-text, .change-text {
+        .like-text {
+          color: darken($like, 10);
           display: table-cell;
+          line-height: 1.15em;
+          padding-right: 15px;
+        }
+        .change-text {
+          color: darken($change, 10);
+          display: table-cell;
+          line-height: 1.15em;
           padding-right: 15px;
         }
       }
 
       & + li {
-        margin-top: 1.5em;
+        margin-top: 20px;
       }
     }
   }
 }
 
 .btn-like.btn {
-  background-color: darken(green, 5);
+  background-color: $like;
+  box-shadow: 0 5px darken($like, 10);
+  -webkit-transition: none;
+  -moz-transition: none;
+}
+
+.btn-like:hover {
+  box-shadow: 0 2px darken($like, 10);
+  top: 2px;
+}
+
+.btn-like:active {
+  box-shadow: 0 0 darken($like, 10);
+  top: 6px;
 }
 
 .btn-change.btn {
-  background-color: lighten(red, 20);
+  background-color: $change;
+  box-shadow: 0 5px darken($change, 10);
+  -webkit-transition: none;
+  -moz-transition: none;
+}
+
+.btn-change:hover {
+  box-shadow: 0 2px darken($change, 10);
+  top: 2px;
+}
+
+.btn-change:active {
+  box-shadow: 0 0 darken($change, 10);
+  top: 6px;
 }
 
 button.delete {
-  font-weight: bold;
-  background: none;
-  font-size: 1em;
+  background-color: $change;
   border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 0.75em;
+  opacity: 0.25;
+  padding: 0;
   position: relative;
-  padding: 3px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
+  -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
+  transition: transform ease-out 0.1s, background 0.2s;
+}
+
+button.delete:hover {
+  opacity: 0.5;
+  -webkit-transform: scale(0.93);
+  -moz-transform: scale(0.93);
+  -ms-transform: scale(0.93);
+  transform: scale(0.93);
+}
+
+button.delete:active {
+  opacity: 1;
+}
+
+.mdi-navigation-close {
+  font-weight: 900;
 }
 
 button.move-forward {
+  color: $blue;
   font-weight: bold;
   background: none;
   font-size: 1em;
@@ -56,7 +122,36 @@ button.move-forward {
   padding: 3px;
 }
 
+button.next-week {
+  color: $blue;
+  -webkit-transition: -webkit-transform 0.6s;
+  transition: transform 0.6s;
+}
+
+button.next-week:hover {
+}
+
+button.next-week:active {
+  text-indent: -290px;
+  opacity: 0;
+}
+
+button.last-week {
+  color: $blue;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+}
+
+button.last-week:hover {
+}
+
+button.last-week:active {
+  text-indent: -290px;
+  opacity: 0;
+}
+
 form.date-form {
+  color: $blue;
   height: 2rem;
 }
 
@@ -81,9 +176,21 @@ input.datepicker {
   }
 }
 
+.input-field label {
+  color: $blue;
+}
+
+.input-field textarea:focus.materialize-textarea + label {
+  color: $blue;
+}
+textarea:focus.materialize-textarea {
+  border-bottom: 1 px solid $blue;
+  box-shadow: 0 1px 0 0 $blue;
+}
+
 #login-buttons a {
   text-decoration: none;
-  color: #26A69A;
+  color: $blue;
 }
 
 .fa-ul {

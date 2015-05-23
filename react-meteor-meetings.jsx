@@ -61,11 +61,11 @@ var LikesAndChanges = ReactMeteor.createClass({
       return (
         <div className='likes-and-changes'>
           <div className='row date-row'>
-            <button className='col s2 right waves-effect' onClick={this.handleNextWeek}>Next Week</button>
+            <button className='next-week col s2 right' onClick={this.handleNextWeek}>Next Week</button>
             <form className='col s3 date-form right right-align'>
               <input type='date' value={formatedDate} className='datepicker' onChange={this.setDate}></input>
             </form>
-            <button className='col s2 right waves-effect' onClick={this.handleLastWeek}>Last Week</button>
+            <button className='last-week col s2 right' onClick={this.handleLastWeek}>Last Week</button>
           </div>
           <AddLikeOrChange onAddLikeOrChangeSubmit={this.handleLikeOrChangeClick}/>
           <div className='row'>
