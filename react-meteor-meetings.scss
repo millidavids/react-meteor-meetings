@@ -1,5 +1,6 @@
 $like: #379F7A;
 $change: #CF4647;
+$blue: #008C9E;
 $skyblue: #E0EFF1;
 
 html, body {
@@ -79,6 +80,7 @@ body {
 }
 
 button.delete {
+  color: $change;
   font-weight: bold;
   background: none;
   font-size: 1em;
@@ -88,6 +90,7 @@ button.delete {
 }
 
 button.move-forward {
+  color: $blue;
   font-weight: bold;
   background: none;
   font-size: 1em;
@@ -96,7 +99,36 @@ button.move-forward {
   padding: 3px;
 }
 
+button.next-week {
+  color: $blue;
+  -webkit-transition: -webkit-transform 0.6s;
+  transition: transform 0.6s;
+}
+
+button.next-week:hover {
+}
+
+button.next-week:active {
+  text-indent: -290px;
+  opacity: 0;
+}
+
+button.last-week {
+  color: $blue;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+}
+
+button.last-week:hover {
+}
+
+button.last-week:active {
+  text-indent: -290px;
+  opacity: 0;
+}
+
 form.date-form {
+  color: $blue;
   height: 2rem;
 }
 
@@ -121,9 +153,21 @@ input.datepicker {
   }
 }
 
+.input-field label {
+  color: $blue;
+}
+
+.input-field textarea:focus.materialize-textarea + label {
+  color: $blue;
+}
+textarea:focus.materialize-textarea {
+  border-bottom: 1 px solid $blue;
+  box-shadow: 0 1px 0 0 $blue;
+}
+
 #login-buttons a {
   text-decoration: none;
-  color: #26A69A;
+  color: $blue;
 }
 
 .fa-ul {
