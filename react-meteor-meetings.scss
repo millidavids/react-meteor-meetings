@@ -80,13 +80,36 @@ body {
 }
 
 button.delete {
-  color: $change;
-  font-weight: bold;
-  background: none;
-  font-size: 1em;
+  background-color: $change;
   border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 0.75em;
+  opacity: 0.25;
+  padding: 0;
   position: relative;
-  padding: 3px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
+  -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
+  transition: transform ease-out 0.1s, background 0.2s;
+}
+
+button.delete:hover {
+  opacity: 0.5;
+  -webkit-transform: scale(0.93);
+  -moz-transform: scale(0.93);
+  -ms-transform: scale(0.93);
+  transform: scale(0.93);
+}
+
+button.delete:active {
+  opacity: 1;
+}
+
+.mdi-navigation-close {
+  font-weight: 900;
 }
 
 button.move-forward {
