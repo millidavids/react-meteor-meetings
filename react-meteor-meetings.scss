@@ -166,7 +166,7 @@ input.datepicker {
   position: absolute;
   top: 0px;
   width: 100%;
-  z-index: 1000;
+  z-index: 500;
 
   button {
     font-size: .8rem;
@@ -191,6 +191,15 @@ textarea:focus.materialize-textarea {
 #login-buttons a {
   text-decoration: none;
   color: $blue;
+  z-index: 1000 !important;
+}
+
+.login-link-and-dropdown-list {
+  z-index: 1000;
+}
+
+.login-link-text {
+  z-index: 1000;
 }
 
 .fa-ul {
